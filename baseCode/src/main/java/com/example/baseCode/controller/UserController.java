@@ -1,9 +1,11 @@
 package com.example.baseCode.controller;
 
+import com.example.baseCode.dto.request.ApiResponse;
 import com.example.baseCode.dto.request.UserCreateRequest;
 import com.example.baseCode.dto.request.UserUpdateRequest;
 import com.example.baseCode.entity.User;
 import com.example.baseCode.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +20,10 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public User createUser (@RequestBody UserCreateRequest request){
-        return userService.createUser(request);
+    public ApiResponse<User> createUser(@RequestBody @Valid UserCreateRequest request){
+        ApiResponse<User> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(userService.createUser(request));
+        return apiResponse;
     }
 
     @GetMapping

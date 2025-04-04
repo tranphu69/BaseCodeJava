@@ -1,9 +1,12 @@
 package com.example.baseCode.dto.request;
 
+import com.example.baseCode.exception.ErrorCode;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
 public class UserCreateRequest {
     private String username;
+    @Size(min = 8, message = "PASSWORD_INVALID")
     private String password;
     private String firstName;
     private String lastName;
