@@ -1,15 +1,22 @@
-package com.example.baseCode.dto.request;
-
-import jakarta.validation.constraints.Size;
+package com.example.baseCode.dto.response;
+import lombok.*;
 import java.time.LocalDate;
 
-public class UserCreateRequest {
+public class UserResponse {
+    private String id;
     private String username;
-    @Size(min = 8, message = "PASSWORD_INVALID")
     private String password;
     private String firstName;
     private String lastName;
     private LocalDate dob;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;

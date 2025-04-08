@@ -10,7 +10,6 @@ public class UserUpdateRequest {
     private LocalDate dob;
 
     public String getId() {
-
         return id;
     }
 
