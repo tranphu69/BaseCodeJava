@@ -1,4 +1,4 @@
-package com.example.baseCode.config;
+package com.example.baseCode.configuration;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
