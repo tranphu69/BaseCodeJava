@@ -1,7 +1,6 @@
-package com.example.baseCode.dto.request;
+package com.example.baseCode.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse <T> {

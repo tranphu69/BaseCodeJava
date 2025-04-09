@@ -1,6 +1,6 @@
 package com.example.baseCode.controller;
 
-import com.example.baseCode.dto.request.ApiResponse;
+import com.example.baseCode.dto.response.ApiResponse;
 import com.example.baseCode.dto.request.UserCreateRequest;
 import com.example.baseCode.dto.request.UserUpdateRequest;
 import com.example.baseCode.dto.response.UserResponse;
@@ -9,10 +9,8 @@ import com.example.baseCode.service.UserService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

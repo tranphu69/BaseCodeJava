@@ -1,6 +1,6 @@
 package com.example.baseCode.exception;
 
-import com.example.baseCode.dto.request.ApiResponse;
+import com.example.baseCode.dto.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
