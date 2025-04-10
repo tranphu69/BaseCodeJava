@@ -9,6 +9,8 @@ import com.example.baseCode.service.UserService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +19,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
     @Autowired
     private UserService userService;
     @Autowired
@@ -32,6 +33,7 @@ public class UserController {
         return apiResponse;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public ApiResponse<List<UserResponse>> listUser() {
         List<User> users = userService.listUser();
@@ -43,6 +45,7 @@ public class UserController {
         return apiResponse;
     }
 
+    @PostAuthorize("returnObject.username == authentication.name")
     @GetMapping("/{id}")
     public ApiResponse<UserResponse> idUser (@PathVariable("id") String id){
         ApiResponse<UserResponse> apiResponse = new ApiResponse<>();

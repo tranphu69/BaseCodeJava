@@ -42,12 +42,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     public List<User> listUser(){
         return userRepository.findAll();
     }
 
-    @PostAuthorize("returnObject.username == authentication.name")
     public User idUser(String id){
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
     }
