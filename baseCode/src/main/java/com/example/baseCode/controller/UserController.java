@@ -52,6 +52,15 @@ public class UserController {
         return apiResponse;
     }
 
+    @GetMapping("/myInfo")
+    public ApiResponse<UserResponse> getMyInfo(){
+        ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
+        User user = userService.getMyInfo();
+        UserResponse response = modelMapper.map(user, UserResponse.class);
+        apiResponse.setResult(response);
+        return apiResponse;
+    }
+
     @PutMapping
     public ApiResponse<UserResponse> updateUser (@RequestBody UserUpdateRequest request){
         ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
