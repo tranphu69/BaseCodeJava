@@ -33,7 +33,7 @@ public class UserController {
         return apiResponse;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ApiResponse<List<UserResponse>> listUser() {
         List<User> users = userService.listUser();
