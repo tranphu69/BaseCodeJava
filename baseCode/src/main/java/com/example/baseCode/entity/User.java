@@ -1,9 +1,6 @@
 package com.example.baseCode.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDate;
@@ -21,5 +18,6 @@ public class User {
     private String firstName;
     private String lastName;
     private LocalDate dob;
-    private Set<String> roles;
+    @ManyToMany
+    private Set<Role> roles;
 }
