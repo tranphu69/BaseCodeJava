@@ -1,8 +1,6 @@
 package com.example.baseCode.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,5 +14,10 @@ public class Role {
     private String name;
     private String description;
     @ManyToMany
+    @JoinTable(
+            name = "role_permission",
+            joinColumns = @JoinColumn(name = "role_name"),
+            inverseJoinColumns = @JoinColumn(name = "permission_name")
+    )
     private Set<Permission> permissions;
 }
