@@ -40,18 +40,31 @@ public class RoleController {
     }
 
     @GetMapping
-    public ApiResponse<List<RoleResponse>> getList(){
+    public ApiResponse<List<RoleResponse>> getList() {
         ApiResponse<List<RoleResponse>> apiResponse = new ApiResponse<>();
         List<Role> roles = roleService.getList();
+        roles.forEach(role -> {
+            role.setPermissions(roleRepository.findPermissionsByRoleName(role.getName()));
+        });
         List<RoleResponse> responses = roles.stream()
-                .map(role -> modelMapper.map(role, RoleResponse.class))
                 .map(role -> {
-                    Set<PermissionResponse> permissions = roleRepository.findPermissionsByRoleName(role.getName());
-                    role.setPermission(permissions);
-                    return role;
+                    RoleResponse roleResponse = modelMapper.map(role, RoleResponse.class);
+                    Set<PermissionResponse> permissionResponses = role.getPermissions().stream()
+                            .map(permission -> modelMapper.map(permission, PermissionResponse.class))
+                            .collect(Collectors.toSet());
+                    roleResponse.setPermission(permissionResponses);
+                    return roleResponse;
                 })
                 .collect(Collectors.toList());
         apiResponse.setResult(responses);
+        return apiResponse;
+    }
+
+    @DeleteMapping("/{id}")
+    public ApiResponse<String> deleteRole(@PathVariable("id") String id){
+        roleService.delete(id);
+        ApiResponse<String> apiResponse = new ApiResponse<>();
+        apiResponse.setResult("Delete role successfull!!!");
         return apiResponse;
     }
 }

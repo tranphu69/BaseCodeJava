@@ -7,6 +7,7 @@ import com.example.baseCode.repository.PermissionRepository;
 import com.example.baseCode.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -29,5 +30,11 @@ public class RoleService {
 
     public List<Role> getList(){
         return roleRepository.findAll();
+    }
+
+    @Transactional
+    public void delete(String id){
+        roleRepository.deleteRolePermissions(id);
+        roleRepository.deleteById(id);
     }
 }
