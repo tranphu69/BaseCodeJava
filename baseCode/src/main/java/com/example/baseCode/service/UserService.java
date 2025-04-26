@@ -6,6 +6,7 @@ import com.example.baseCode.entity.User;
 import com.example.baseCode.enums.Role;
 import com.example.baseCode.exception.AppException;
 import com.example.baseCode.exception.ErrorCode;
+import com.example.baseCode.repository.RoleRepository;
 import com.example.baseCode.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,14 +22,15 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RoleRepository roleRepository;
 
     public User createUser(UserCreateRequest request){
         if(userRepository.existsByUsername(request.getUsername()))
             throw new AppException(ErrorCode.USER_EXSITED);
         User user = new User();
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
-        //user.setRoles(roles);
+        var roles = roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setFirstName(request.getFirstName());
@@ -47,7 +49,10 @@ public class UserService {
 
     public User updateUser(UserUpdateRequest request){
         User user = userRepository.findById(request.getId()).orElseThrow(() -> new RuntimeException("User not found"));
+        var roles = roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
         user.setUsername(request.getUsername());
+        user.setPassword(request.getPassword());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setDob(request.getDob());

@@ -3,6 +3,7 @@ package com.example.baseCode.controller;
 import com.example.baseCode.dto.response.ApiResponse;
 import com.example.baseCode.dto.request.UserCreateRequest;
 import com.example.baseCode.dto.request.UserUpdateRequest;
+import com.example.baseCode.dto.response.RoleResponse;
 import com.example.baseCode.dto.response.UserResponse;
 import com.example.baseCode.entity.User;
 import com.example.baseCode.service.UserService;
@@ -29,11 +30,14 @@ public class UserController {
         ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
         User user = userService.createUser(request);
         UserResponse response = modelMapper.map(user, UserResponse.class);
+        response.setRoles(user.getRoles().stream()
+                .map(role -> modelMapper.map(role, RoleResponse.class))
+                .collect(Collectors.toSet()));
         apiResponse.setResult(response);
         return apiResponse;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ApiResponse<List<UserResponse>> listUser() {
         List<User> users = userService.listUser();
@@ -45,7 +49,7 @@ public class UserController {
         return apiResponse;
     }
 
-    @PostAuthorize("returnObject.username == authentication.name")
+    //@PostAuthorize("returnObject.username == authentication.name")
     @GetMapping("/{id}")
     public ApiResponse<UserResponse> idUser (@PathVariable("id") String id){
         ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
@@ -69,6 +73,9 @@ public class UserController {
         ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
         User user = userService.updateUser(request);
         UserResponse response = modelMapper.map(user, UserResponse.class);
+        response.setRoles(user.getRoles().stream()
+                .map(role -> modelMapper.map(role, RoleResponse.class))
+                .collect(Collectors.toSet()));
         apiResponse.setResult(response);
         return apiResponse;
     }
