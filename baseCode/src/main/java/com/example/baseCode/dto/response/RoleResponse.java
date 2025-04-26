@@ -8,7 +8,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RoleResponse {
     private String name;
     private String description;
