@@ -12,9 +12,9 @@ import java.util.Set;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, String> {
-    @Query(value = "SELECT p.* FROM permission p JOIN role_permissions rp ON p.name = rp.permissions_name WHERE rp.role_name = :roleName", nativeQuery = true)
+    @Query(value = "SELECT p.* FROM permission p JOIN role_permission rp ON p.name = rp.permission_name WHERE rp.role_name = :roleName", nativeQuery = true)
     Set<Permission> findPermissionsByRoleName(@Param("roleName") String roleName);
     @Modifying
-    @Query(value = "DELETE FROM role_permissions WHERE role_name = :roleName", nativeQuery = true)
+    @Query(value = "DELETE FROM role_permission WHERE role_name = :roleName", nativeQuery = true)
     void deleteRolePermissions(@Param("roleName") String roleName);
 }
