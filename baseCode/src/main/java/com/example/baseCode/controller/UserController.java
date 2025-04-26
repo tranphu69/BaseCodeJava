@@ -47,7 +47,7 @@ public class UserController {
         return apiResponse;
     }
 
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ApiResponse<List<UserResponse>> listUser() {
         List<User> users = userService.listUser();
@@ -72,7 +72,7 @@ public class UserController {
         return apiResponse;
     }
 
-    //@PostAuthorize("returnObject.username == authentication.name")
+    @PostAuthorize("returnObject.username == authentication.name")
     @GetMapping("/{id}")
     public ApiResponse<UserResponse> idUser (@PathVariable("id") String id){
         ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
