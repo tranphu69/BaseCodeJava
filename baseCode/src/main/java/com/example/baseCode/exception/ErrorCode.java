@@ -13,7 +13,8 @@ public enum ErrorCode {
     NOT_FOUND(1004, "Username not existed", HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(1005, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1006, "You do not have permission", HttpStatus.FORBIDDEN),
-    PERMISSION_EXSITED(1007, "permission existed", HttpStatus.BAD_REQUEST)
+    PERMISSION_EXSITED(1007, "permission existed", HttpStatus.BAD_REQUEST),
+    INVALID_DOB(1008, "Your age must be at least {min}", HttpStatus.BAD_REQUEST)
     ;
 
     private int code;
