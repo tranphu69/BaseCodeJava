@@ -3,6 +3,7 @@ package com.example.baseCode.service;
 import com.example.baseCode.dto.request.AuthenticationRequest;
 import com.example.baseCode.dto.request.IntrospectRequest;
 import com.example.baseCode.dto.request.LogoutRequest;
+import com.example.baseCode.dto.request.RefreshRequest;
 import com.example.baseCode.dto.response.AuthenticationResponse;
 import com.example.baseCode.dto.response.IntrospecResponse;
 import com.example.baseCode.entity.InvalidatedToken;
@@ -64,6 +65,25 @@ public class AuthenticationService {
         AuthenticationResponse response = new AuthenticationResponse();
         response.setToken(token);
         response.setAuthenticated(authenticated);
+        return response;
+    }
+
+    public AuthenticationResponse refreshToken(RefreshRequest request) throws ParseException, JOSEException {
+        var signJWT = verifyToken(request.getToken());
+        var jit = signJWT.getJWTClaimsSet().getJWTID();
+        var expiryTime = signJWT.getJWTClaimsSet().getExpirationTime();
+        InvalidatedToken invalidatedToken = new InvalidatedToken();
+        invalidatedToken.setId(jit);
+        invalidatedToken.setExpiryTime(expiryTime);
+        invalidatedTokenRepository.save(invalidatedToken);
+        var username = signJWT.getJWTClaimsSet().getSubject();
+        var user = userRepository.findByUsername(username).orElseThrow(
+                () -> new AppException(ErrorCode.USER_EXSITED)
+        );
+        var token = generateToken(user);
+        AuthenticationResponse response = new AuthenticationResponse();
+        response.setToken(token);
+        response.setAuthenticated(true);
         return response;
     }
 
